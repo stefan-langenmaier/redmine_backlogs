@@ -7,6 +7,7 @@ fr:
   backlogs_burndown_print_width: "Largeur d'impression du Burndown"
   backlogs_burndown_settings: "Préférences Burndown"
   backlogs_card_specification: "Types d'étiquettes pour impression de cartes"
+  backlogs_default_sprint_content: "Contenu d'itération defaulte"
   backlogs_default_story_tracker: "Tracker défaut de scénarios"
   backlogs_general_settings: "Préférences générales"
   backlogs_impediment: Obstacle
@@ -112,6 +113,7 @@ fr:
   label_all_tasks: "Toutes les tâches"
   label_back_to_project: "Retour à la page du projet"
   label_backlogs: Carnets
+  label_backlogs_import_sprint: "Itération Scrum"
   label_backlogs_unconfigured: "Vous n'avez pas encore configuré les carnets. Aller à %{administration} > %{plugins}, et cliquez sur le lien %{configure} pour ce plugin. Une fois que vous aurez défini les champs, revenez à cette page pour utiliser l'outil"
   label_burndown: Burndown
   label_chart_options: "Options du graphique"

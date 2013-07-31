@@ -35,6 +35,7 @@ object_to_prepare.to_prepare do
 
   require_dependency 'backlogs_my_controller_patch'
   require_dependency 'backlogs_issues_controller_patch'
+  require_dependency 'backlogs_settings_controller_patch'
   require_dependency 'backlogs_projects_helper_patch'
 
   require_dependency 'backlogs_hooks'
@@ -66,6 +67,7 @@ Redmine::Plugin.register :redmine_backlogs do
                          :show_project_name         => nil,
                          :scrum_stats_menu_position => 'top',
                          :show_redmine_std_header   => 'enabled',
+                         :default_sprint_content    => nil,
                          :show_priority             => nil
                        },
            :partial => 'backlogs/settings'
@@ -120,7 +122,7 @@ Redmine::Plugin.register :redmine_backlogs do
     # :show_sprints and :list_sprints are implicit in :view_master_backlog permission
     permission :create_sprints,      { :rb_sprints => [:new, :create]  }
     permission :update_sprints,      {
-                                        :rb_sprints => [:edit, :update],
+                                        :rb_sprints => [:edit, :update, :import],
                                         :rb_wikis   => [:edit, :update]
                                       }
 

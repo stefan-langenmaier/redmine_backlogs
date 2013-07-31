@@ -109,6 +109,68 @@ class RbSprintsController < RbApplicationController
 
     redirect_to :controller => 'rb_master_backlogs', :action => 'show', :project_id => @project.identifier
   end
+  
+  def import
+    ts = Version.find(Backlogs.settings[:default_sprint_content])
+    
+    #attach wiki from template
+    unless @sprint.has_wiki_page() || @project.wiki.nil? || ts.wiki_page_title.blank? || !ts.project.wiki.find_page(ts.wiki_page_title)
+        
+      wiki = @project.wiki
+      page = ts.wiki_page
+
+      new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id", "updated_on"))
+      new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_on", "parent_id"))
+      new_wiki_page.content = new_wiki_content
+      wiki.pages << new_wiki_page
+
+      wiki.save
+      
+      @sprint.wiki_page_title = new_wiki_page.title
+      @sprint.save
+    end
+    
+    #copy all issues from template version/sprint
+    # Stores the source issue id as a key and the copied issues as the
+    # value.  Used to map the two together for issue relations.
+    issues_map = {}
+    # Get issues sorted by root_id, lft so that parent issues
+    # get copied before their children
+    ts.fixed_issues.reorder('root_id, lft').all.each do |issue|
+      new_issue = Issue.new
+      new_issue.copy_from(issue, :subtasks => false, :link => false)
+      new_issue.project = @project
+      # Changing project resets the custom field values
+      # TODO: handle this in Issue#project=
+      new_issue.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
+
+      new_issue.fixed_version_id = @sprint.id
+      
+      # Reassign the category by name, since names are unique per project
+      if issue.category
+        new_issue.category = @project.issue_categories.detect {|c| c.name == issue.category.name}
+      end
+      
+      # Parent issue
+      if issue.parent_id
+        if copied_parent = issues_map[issue.parent_id]
+          new_issue.parent_issue_id = copied_parent.id
+        end
+      end
+      
+      # all issues should have status NEW
+      new_issue.status_id = 1
+
+      @project.issues << new_issue
+      if new_issue.new_record?
+        logger.info "Project#copy_issues: issue ##{issue.id} could not be copied: #{new_issue.errors.full_messages}" if logger && logger.info
+      else
+        issues_map[issue.id] = new_issue unless new_issue.new_record?
+      end
+    end
+
+    redirect_to :controller => 'rb_master_backlogs', :action => 'show', :project_id => @project
+  end
 
   def close_completed
     @project.close_completed_versions

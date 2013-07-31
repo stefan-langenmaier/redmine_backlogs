@@ -286,6 +286,11 @@
   <%= check_box_tag("settings[show_project_name]",'enabled',
             Backlogs.setting[:show_project_name]) %>
 </p>
+<p>
+  <%= content_tag(:label, l(:backlogs_default_sprint_content)) %>
+  <%= select_tag("settings[default_sprint_content]", version_options_for_select(Version.open.sort, Version.find_by_id(Backlogs.setting[:default_sprint_content]))) %>
+</p>
+
 </fieldset>
 
 <fieldset>

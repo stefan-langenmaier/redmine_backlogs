@@ -66,6 +66,9 @@ class RbMasterBacklogsController < RbApplicationController
     links << {:label => l(:label_task_board),
               :url => url_for(:controller => 'rb_taskboards', :action => 'show', :sprint_id => @sprint, :only_path => true)
              } if @sprint && @sprint.stories.size > 0 && Backlogs.task_workflow(@project) && User.current.allowed_to?(:view_taskboards, @project)
+    links << {:label => l(:label_backlogs_import_sprint),
+                  :url => url_for(:controller => 'rb_sprints', :action => 'import', :sprint_id => @sprint, :only_path => true)
+                 } if @sprint
     links << {:label =>  l(:label_burndown),
               :url => '#',
               :classname => 'show_burndown_chart'

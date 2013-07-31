@@ -69,6 +69,7 @@ def rb_common_routes(rb)
   rb_match rb, 'impediment/update/:id', :to => 'rb_impediments#update'
 
   rb_match rb, 'sprint/create', :to => 'rb_sprints#create'
+  rb_match rb, 'sprint/:sprint_id/import', :to => 'rb_sprints#import'
   rb_match rb, 'sprint/:sprint_id/update', :to => 'rb_sprints#update'
   rb_match rb, 'sprint/:sprint_id/reset', :to => 'rb_sprints#reset'
   rb_match rb, 'sprint/download/:sprint_id.xml', :to => 'rb_sprints#download', :format => 'xml'

@@ -7,6 +7,7 @@ en:
   backlogs_burndown_print_width: "Burndown print width"
   backlogs_burndown_settings: "Burndown settings"
   backlogs_card_specification: "Label types for card printing"
+  backlogs_default_sprint_content: "Default sprint content"
   backlogs_default_story_tracker: "Default story tracker"
   backlogs_general_settings: "General settings"
   backlogs_impediment: Impediment
@@ -112,6 +113,7 @@ en:
   label_all_tasks: "All tasks"
   label_back_to_project: "Back to project page"
   label_backlogs: Backlogs
+  label_backlogs_import_sprint: "Scrum sprint"
   label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
   label_burndown: Burndown
   label_chart_options: "Chart Options"
