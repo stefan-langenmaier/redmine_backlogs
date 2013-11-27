@@ -122,6 +122,7 @@ class RbSprintsController < RbApplicationController
       new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id", "updated_on"))
       new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_on", "parent_id"))
       new_wiki_page.content = new_wiki_content
+      new_wiki_page.title = @sprint.name
       wiki.pages << new_wiki_page
 
       wiki.save
