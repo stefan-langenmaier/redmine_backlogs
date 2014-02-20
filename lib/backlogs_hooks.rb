@@ -332,6 +332,7 @@ module BacklogsPlugin
                 nt.copy_from(t)
                 nt.parent_issue_id = issue.id
                 nt.position = nil # will assign a new position
+                nt.fixed_version = nil
                 nt.save!
               }
             end
